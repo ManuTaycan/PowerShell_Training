@@ -27,11 +27,10 @@
 
 
 # --- Step 2.
-param{
-    [switch]$Run
+param(
+    [switch]$Run,
     [switch]$Help
-}
-
+)
 # --- Step 3.
 function Check-DiskSpace{
     $drives = Get-PSDrive -Name * | Where-Object Used -NE $null | Select-Object Name, Free, Used
@@ -104,4 +103,3 @@ if($run){
 If($Help){
     Help
 }
-
