@@ -27,6 +27,9 @@
 .GEMENIS CRITIC
     [Math]::Round($Wert, 1)
     To many loops inside of loops. The script could have been way simpler and not be showing double results
+
+.LINKS
+    https://serverfault.com/questions/95431/in-a-powershell-script-how-can-i-check-if-im-running-with-administrator-privil
 #>
 
 
@@ -35,6 +38,28 @@ param(
     [switch]$Run,
     [switch]$Help
 )
+
+
+# --- Check elevated session
+function Test-Administrator  
+{  
+    [OutputType([bool])]
+    param()
+    process {
+        [Security.Principal.WindowsPrincipal]$user = [Security.Principal.WindowsIdentity]::GetCurrent();
+        return $user.IsInRole([Security.Principal.WindowsBuiltinRole]::Administrator);
+    }
+}
+
+if(-not (Test-Administrator))
+{ 
+    Write-Error "This script must be executed as Administrator.";
+    exit 1;
+}
+
+$ErrorActionPreference = "Stop";
+
+
 # --- Step 3.
 function Check-DiskSpace{
     $drives = Get-PSDrive -Name * | Where-Object Used -NE $null | Select-Object Name, Free, Used
