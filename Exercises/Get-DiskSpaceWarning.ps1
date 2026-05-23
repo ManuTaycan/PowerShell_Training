@@ -23,6 +23,10 @@
     Get-Disk -FriendlyName * | Select-Object * | Format-List
     Get-PSDrive -Name * | Select-Object * | Format-List
     ProzentFrei = (FreierSpeicher / GesamtSpeicher) * 100
+
+.GEMENIS CRITIC
+    [Math]::Round($Wert, 1)
+    To many loops inside of loops. The script could have been way simpler and not be showing double results
 #>
 
 
